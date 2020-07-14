@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "B2C Custom Policy", "B2C Custom Policy", "{DDAC3758-9CAE-4790-84B1-5B6258BAE44E}"
+	ProjectSection(SolutionItems) = preProject
+		B2C Custom Policy\PasswordReset.xml = B2C Custom Policy\PasswordReset.xml
+		B2C Custom Policy\ProfileEdit.xml = B2C Custom Policy\ProfileEdit.xml
+		B2C Custom Policy\SignUpOrSignin.xml = B2C Custom Policy\SignUpOrSignin.xml
+		B2C Custom Policy\TrustFrameworkBase.xml = B2C Custom Policy\TrustFrameworkBase.xml
+		B2C Custom Policy\TrustFrameworkExtensions.xml = B2C Custom Policy\TrustFrameworkExtensions.xml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Identity.Web", "external\Microsoft.Identity.Web\Microsoft.Identity.Web.csproj", "{009811F4-6C11-454C-B480-BB4B0697FA7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Identity.Web.UI", "external\Microsoft.Identity.Web.UI\Microsoft.Identity.Web.UI.csproj", "{30D769B7-3E92-4CA9-A233-C6FC54A8AADC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ithaca-service", "ithaca-service\ithaca-service.csproj", "{CB64699F-FE27-4DE4-8437-6FEAFF18E936}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ithaca-web", "ithaca-web\ithaca-web.csproj", "{3BC82671-2355-4226-A1E2-9FBF8672642B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{009811F4-6C11-454C-B480-BB4B0697FA7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009811F4-6C11-454C-B480-BB4B0697FA7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009811F4-6C11-454C-B480-BB4B0697FA7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009811F4-6C11-454C-B480-BB4B0697FA7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D769B7-3E92-4CA9-A233-C6FC54A8AADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D769B7-3E92-4CA9-A233-C6FC54A8AADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D769B7-3E92-4CA9-A233-C6FC54A8AADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D769B7-3E92-4CA9-A233-C6FC54A8AADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB64699F-FE27-4DE4-8437-6FEAFF18E936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB64699F-FE27-4DE4-8437-6FEAFF18E936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB64699F-FE27-4DE4-8437-6FEAFF18E936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB64699F-FE27-4DE4-8437-6FEAFF18E936}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BC82671-2355-4226-A1E2-9FBF8672642B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BC82671-2355-4226-A1E2-9FBF8672642B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BC82671-2355-4226-A1E2-9FBF8672642B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BC82671-2355-4226-A1E2-9FBF8672642B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0E11621-7A5F-4207-9629-0155FF96ADC4}
+	EndGlobalSection
+EndGlobal
