@@ -19,15 +19,17 @@
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />
       <OutputClaims>
-        <!-- <OutputClaim ClaimTypeReferenceId="displayName" /> -->
+        <OutputClaim ClaimTypeReferenceId="displayName" /> 
         <OutputClaim ClaimTypeReferenceId="givenName" />
         <OutputClaim ClaimTypeReferenceId="surname" />
-        <OutputClaim ClaimTypeReferenceId="email" />
+        <OutputClaim ClaimTypeReferenceId="signInNames.emailAddress" PartnerClaimType="email" />
+        <!-- <OutputClaim ClaimTypeReferenceId="email" /> -->
         <OutputClaim ClaimTypeReferenceId="objectId" PartnerClaimType="sub"/>
         <OutputClaim ClaimTypeReferenceId="identityProvider" />
         <OutputClaim ClaimTypeReferenceId="tenantId" AlwaysUseDefaultValue="true" DefaultValue="{Policy:TenantObjectId}" />
         <OutputClaim ClaimTypeReferenceId="promoCode" DefaultValue="" />
         <OutputClaim ClaimTypeReferenceId="balance" DefaultValue="" />
+        <OutputClaim ClaimTypeReferenceId="luisFavoriteColor" DefaultValue="" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>

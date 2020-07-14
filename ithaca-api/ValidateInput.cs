@@ -59,22 +59,8 @@ namespace ithaca_api
             return (ActionResult)new OkObjectResult(new ResponseContent() { promoCode = random.Next(12345, 99999).ToString() });
         }
 
-        public class ResponseContent
-        {
-            public string promoCode { get; set; }
-        }
+        
 
-        public class ResponseError
-        {
-            public ResponseError()
-            {
-                version = "1.0.1";
-                status = 409;
-            }
-
-            public string version { get; set; }
-            public int status { get; set; }
-            public string userMessage { get; set; }
-        }
+       
     }
 }

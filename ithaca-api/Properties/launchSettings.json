@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ithaca-api": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DB_CONNECTIONSTRING": "Server=tcp:ithaca-server.database.windows.net,1433;Initial Catalog=ithaca;Persist Security Info=False;User ID=nick;Password=Boldmere1883@@@;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      }
+    }
+  }
+}
