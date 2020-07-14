@@ -60,12 +60,13 @@ namespace ithaca_api
 
             if (string.IsNullOrEmpty(luisAccount.LuisFavoriteColor)) luisAccount.LuisFavoriteColor = "None";
             log.LogDebug($"email={email}, luisFavoritecolor={luisAccount.LuisFavoriteColor}");
-            return (ActionResult)new OkObjectResult(new LuisClaimsResponseContent() { LuisFavoriteColor = luisAccount.LuisFavoriteColor });
+            return (ActionResult)new OkObjectResult(new LuisClaimsResponseContent() { LuisFavoriteColor = luisAccount.LuisFavoriteColor, LuisAccountNumber = luisAccount.LuisAccountNumber });
         }
 
         public class LuisClaimsResponseContent
         {
             public string LuisFavoriteColor { get; set; }
+            public string LuisAccountNumber { get; set; }
         }
 
     }

@@ -144,3 +144,4 @@ C:\Users\nhill\source\repos\ithaca9\ithaca-web\bin\Debug\netcoreapp3.1\System.Se
 C:\Users\nhill\source\repos\ithaca9\ithaca-web\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\nhill\source\repos\ithaca9\ithaca-web\bin\Debug\netcoreapp3.1\Microsoft.Identity.Web.UI.dll
 C:\Users\nhill\source\repos\ithaca9\ithaca-web\bin\Debug\netcoreapp3.1\Microsoft.Identity.Web.UI.pdb
+C:\Users\nhill\source\repos\ithaca9\ithaca-web\obj\Debug\netcoreapp3.1\Razor\Views\LuisAccount\Index.cshtml.g.cs

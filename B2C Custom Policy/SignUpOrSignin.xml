@@ -30,6 +30,7 @@
         <OutputClaim ClaimTypeReferenceId="promoCode" DefaultValue="" />
         <OutputClaim ClaimTypeReferenceId="balance" DefaultValue="" />
         <OutputClaim ClaimTypeReferenceId="luisFavoriteColor" DefaultValue="" />
+        <OutputClaim ClaimTypeReferenceId="luisAccountNumber" DefaultValue="" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>

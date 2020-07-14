@@ -38,6 +38,10 @@
         <DisplayName>Luis Favorite Color</DisplayName>
         <DataType>string</DataType>
       </ClaimType>
+      <ClaimType Id="luisAccountNumber">
+        <DisplayName>Luis Account Number</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
     </ClaimsSchema>
   </BuildingBlocks>
 
@@ -114,14 +118,14 @@
             <!-- <OutputClaim ClaimTypeReferenceId="displayName"/> -->
             <OutputClaim ClaimTypeReferenceId="givenName"/>
             <OutputClaim ClaimTypeReferenceId="surName"/>
-            <!-- Required to present the text box to collect the data from the user -->
-            <OutputClaim ClaimTypeReferenceId="loyaltyId"/>
-            <!-- Required to pass the promoCode returned from "REST-ValidateProfile" 
+            <!-- Required to present the text box to collect the data from the user 
+            <OutputClaim ClaimTypeReferenceId="loyaltyId"/>-->
+            <!-- Required to pass the luisAccountNumber returned from "REST-CheckLUISRegistration" 
             to subsequent orchestration steps and token issuance-->
-            <OutputClaim ClaimTypeReferenceId="promoCode" />
+            <OutputClaim ClaimTypeReferenceId="luisAccountNumber" />
           </OutputClaims>
           <ValidationTechnicalProfiles>
-            <ValidationTechnicalProfile ReferenceId="REST-ValidateProfile" />
+            <ValidationTechnicalProfile ReferenceId="REST-CheckLUISRegistration" />
           </ValidationTechnicalProfiles>
         </TechnicalProfile>
       </TechnicalProfiles>
@@ -140,14 +144,14 @@
         <!-- <OutputClaim ClaimTypeReferenceId="displayName"/> -->
           <OutputClaim ClaimTypeReferenceId="givenName"/>
           <OutputClaim ClaimTypeReferenceId="surname"/>
-          <!-- Required to present the text box to collect the data from the user -->
-          <OutputClaim ClaimTypeReferenceId="loyaltyId"/>
-          <!-- Required to pass the promoCode returned from "REST-ValidateProfile" 
+          <!-- Required to present the text box to collect the data from the user 
+          <OutputClaim ClaimTypeReferenceId="loyaltyId"/>-->
+          <!-- Required to pass the luisAccountNumber returned from "REST-CheckLUISRegistration" 
           to subsequent orchestration steps and token issuance-->
-          <OutputClaim ClaimTypeReferenceId="promoCode" />
+          <OutputClaim ClaimTypeReferenceId="luisAccountNumber" />
         </OutputClaims>
         <ValidationTechnicalProfiles>
-          <ValidationTechnicalProfile ReferenceId="REST-ValidateProfile"/>
+          <ValidationTechnicalProfile ReferenceId="REST-CheckLUISRegistration"/>
         </ValidationTechnicalProfiles>
       </TechnicalProfile>
     </TechnicalProfiles>
@@ -203,6 +207,34 @@
           <OutputClaims>
             <!-- Claims parsed from your REST API -->
             <OutputClaim ClaimTypeReferenceId="luisFavoriteColor" />
+            <OutputClaim ClaimTypeReferenceId="luisAccountNumber" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
+
+    <ClaimsProvider>
+      <DisplayName>LUIS REST APIs</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="REST-CheckLUISRegistration">
+          <DisplayName>Check loyaltyId Azure Function web hook</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="ServiceUrl">https://ithaca9.azurewebsites.net/api/check-luis-registration?code=PbrSD8UreCLrllgdAm4cokT0t/tvsk4hgLEfZXp6EXLCS6hJu4deaw==</Item>
+            <Item Key="SendClaimsIn">Body</Item>
+            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments -->
+            <Item Key="AuthenticationType">None</Item>
+            <!-- REMOVE the following line in production environments -->
+            <Item Key="AllowInsecureAuthInProduction">true</Item>
+          </Metadata>
+          <InputClaims>
+            <!-- Claims sent to your REST API -->
+            <InputClaim ClaimTypeReferenceId="email" />
+          </InputClaims>
+          <OutputClaims>
+            <!-- Claims parsed from your REST API -->
+            <OutputClaim ClaimTypeReferenceId="LuisAccountNumber" />
           </OutputClaims>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
