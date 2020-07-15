@@ -28,7 +28,7 @@ namespace Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Controllers
         public IActionResult SignIn([FromRoute] string scheme)
         {
             scheme = scheme ?? OpenIdConnectDefaults.AuthenticationScheme;
-            var redirectUrl = Url.Content("~/claims");
+            var redirectUrl = Url.Content("~/luisaccount");
             var cr = Challenge(
                 new AuthenticationProperties { RedirectUri = redirectUrl },
                 scheme);

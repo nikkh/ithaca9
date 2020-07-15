@@ -132,7 +132,7 @@
     </ClaimsProvider>
 
 
-  <ClaimsProvider>
+    <ClaimsProvider>
     <DisplayName>Self Asserted</DisplayName>
     <TechnicalProfiles>
       <TechnicalProfile Id="SelfAsserted-Social">
@@ -157,33 +157,33 @@
     </TechnicalProfiles>
   </ClaimsProvider>
 
-<ClaimsProvider>
-  <DisplayName>REST APIs</DisplayName>
-  <TechnicalProfiles>
-    <TechnicalProfile Id="REST-GetProfile">
-      <DisplayName>Get user extended profile Azure Function web hook</DisplayName>
-      <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
-      <Metadata>
-        <Item Key="ServiceUrl">https://ithaca9.azurewebsites.net/api/ObtainClaims?code=RvMJtQUog85nVBUIlFVlN2azAvdaOGL/gDhJpJbCgC/TGyqJ1DlyrA==</Item>
-        <Item Key="SendClaimsIn">Body</Item>
-        <!-- Set AuthenticationType to Basic or ClientCertificate in production environments -->
-        <Item Key="AuthenticationType">None</Item>
-        <!-- REMOVE the following line in production environments -->
-        <Item Key="AllowInsecureAuthInProduction">true</Item>
-      </Metadata>
-      <InputClaims>
-        <!-- Claims sent to your REST API -->
-        <InputClaim ClaimTypeReferenceId="objectId" />
-        <InputClaim ClaimTypeReferenceId="userLanguage" PartnerClaimType="lang" DefaultValue="{Culture:LCID}" AlwaysUseDefaultValue="true" />
-      </InputClaims>
-      <OutputClaims>
-        <!-- Claims parsed from your REST API -->
-        <OutputClaim ClaimTypeReferenceId="balance" />
-      </OutputClaims>
-      <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
-    </TechnicalProfile>
-  </TechnicalProfiles>
-</ClaimsProvider>
+    <ClaimsProvider>
+      <DisplayName>REST APIs</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="REST-GetProfile">
+          <DisplayName>Get user extended profile Azure Function web hook</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="ServiceUrl">https://ithaca9.azurewebsites.net/api/ObtainClaims?code=RvMJtQUog85nVBUIlFVlN2azAvdaOGL/gDhJpJbCgC/TGyqJ1DlyrA==</Item>
+            <Item Key="SendClaimsIn">Body</Item>
+            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments -->
+            <Item Key="AuthenticationType">None</Item>
+            <!-- REMOVE the following line in production environments -->
+            <Item Key="AllowInsecureAuthInProduction">true</Item>
+          </Metadata>
+          <InputClaims>
+            <!-- Claims sent to your REST API -->
+            <InputClaim ClaimTypeReferenceId="objectId" />
+            <InputClaim ClaimTypeReferenceId="userLanguage" PartnerClaimType="lang" DefaultValue="{Culture:LCID}" AlwaysUseDefaultValue="true" />
+          </InputClaims>
+          <OutputClaims>
+            <!-- Claims parsed from your REST API -->
+            <OutputClaim ClaimTypeReferenceId="balance" />
+          </OutputClaims>
+          <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
 
     <ClaimsProvider>
       <DisplayName>LUIS REST APIs</DisplayName>
@@ -194,11 +194,17 @@
           <Metadata>
             <Item Key="ServiceUrl">https://ithaca9.azurewebsites.net/api/get-luis-claims?code=UZe3YrGGGhPZFGjx9SRrx/sEYNBmjtQTIhYHzwJtt5cj/yV7RnuJ8g==</Item>
             <Item Key="SendClaimsIn">Body</Item>
-            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments -->
+            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments 
             <Item Key="AuthenticationType">None</Item>
-            <!-- REMOVE the following line in production environments -->
-            <Item Key="AllowInsecureAuthInProduction">true</Item>
+            REMOVE the following line in production environments 
+            <Item Key="AllowInsecureAuthInProduction">true</Item>-->
+            <Item Key="AuthenticationType">Basic</Item>
+            <Item Key="AllowInsecureAuthInProduction">false</Item>
           </Metadata>
+          <CryptographicKeys>
+            <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_LuisRestUserName" />
+            <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_LuisRestUserPassword" />
+          </CryptographicKeys>
           <InputClaims>
             <!-- Claims sent to your REST API -->
             <InputClaim ClaimTypeReferenceId="signInName" />
@@ -223,11 +229,17 @@
           <Metadata>
             <Item Key="ServiceUrl">https://ithaca9.azurewebsites.net/api/check-luis-registration?code=PbrSD8UreCLrllgdAm4cokT0t/tvsk4hgLEfZXp6EXLCS6hJu4deaw==</Item>
             <Item Key="SendClaimsIn">Body</Item>
-            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments -->
+            <!-- Set AuthenticationType to Basic or ClientCertificate in production environments 
             <Item Key="AuthenticationType">None</Item>
-            <!-- REMOVE the following line in production environments -->
-            <Item Key="AllowInsecureAuthInProduction">true</Item>
+            REMOVE the following line in production environments 
+            <Item Key="AllowInsecureAuthInProduction">true</Item>-->
+            <Item Key="AuthenticationType">Basic</Item>
+            <Item Key="AllowInsecureAuthInProduction">false</Item>
           </Metadata>
+          <CryptographicKeys>
+            <Key Id="BasicAuthenticationUsername" StorageReferenceId="B2C_1A_LuisRestUserName" />
+            <Key Id="BasicAuthenticationPassword" StorageReferenceId="B2C_1A_LuisRestUserPassword" />
+          </CryptographicKeys>
           <InputClaims>
             <!-- Claims sent to your REST API -->
             <InputClaim ClaimTypeReferenceId="email" />

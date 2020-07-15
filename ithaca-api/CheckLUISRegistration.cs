@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Primitives;
+using System.Linq;
 
 namespace ithaca_api
 {
@@ -21,9 +23,19 @@ namespace ithaca_api
             ILogger log)
         {
             Database.Logger = log;
+            Authenticator.log = log;
+
             /* {
                 "email": "User email address",
              } */
+
+            req.Headers.TryGetValue("Authorization", out StringValues authHeaders);
+            var authHeader = authHeaders.FirstOrDefault();
+            var base64part = authHeader.Split(' ')[1];
+            if (!Authenticator.Authenticate(base64part))
+            {
+                return (ActionResult)new UnauthorizedResult();
+            }
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
