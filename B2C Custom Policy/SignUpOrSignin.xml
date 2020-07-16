@@ -31,6 +31,7 @@
         <OutputClaim ClaimTypeReferenceId="balance" DefaultValue="" />
         <OutputClaim ClaimTypeReferenceId="luisFavoriteColor" DefaultValue="" />
         <OutputClaim ClaimTypeReferenceId="luisAccountNumber" DefaultValue="" />
+        <OutputClaim ClaimTypeReferenceId="luisStateResponse" DefaultValue="" />
       </OutputClaims>
       <SubjectNamingInfo ClaimType="sub" />
     </TechnicalProfile>

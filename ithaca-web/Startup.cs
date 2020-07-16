@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Identity.Web.UI;
 using Microsoft.IdentityModel.Logging;
 using myConstants = TodoListClient.Infrastructure.Constants;
+using System.Threading.Tasks;
+using Microsoft.Identity.Web.Resource;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TodoListClient
 {
@@ -44,15 +47,47 @@ namespace TodoListClient
 
             services.AddOptions();
 
-            _ = services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftWebApp(Configuration, "AzureAdB2C")
-                .AddMicrosoftWebAppCallsWebApi(Configuration, new string[] { Configuration["TodoList:TodoListScope"] }, configSectionName: "AzureAdB2C")
-                .AddInMemoryTokenCaches();
+            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //    .AddMicrosoftWebApp(Configuration, "AzureAdB2C")
+            //    .AddMicrosoftWebAppCallsWebApi(Configuration, new string[] { Configuration["TodoList:TodoListScope"] }, configSectionName: "AzureAdB2C")
+            //    .AddInMemoryTokenCaches();
 
+            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //                .AddSignIn("AzureAdB2C", Configuration, options => Configuration.Bind("AzureAdB2C", options));
 
-            // Add APIs
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+                .AddSignIn("AzureAdB2C", Configuration, options =>
+                { 
+                    Configuration.Bind("AzureAdB2C", options);
+                    options.Events = new OpenIdConnectEvents
+                    {
+                        // handle the  redirection
+                        OnRedirectToIdentityProvider = (context) =>
+                        {
+                            foreach (var item in context.Properties.Parameters)
+                            {
+                                if (context.ProtocolMessage.Parameters.ContainsKey(item.Key))
+                                {
+                                    context.ProtocolMessage.Parameters[item.Key] = item.Value.ToString();
+                                }
+                                else
+                                {
+                                    context.ProtocolMessage.Parameters.Add(item.Key, item.Value.ToString());
+                                }
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+          
+
+            // Add APIs - can be removed...
+            services.AddWebAppCallsProtectedWebApi(Configuration, new string[] { Configuration["TodoList:TodoListScope"] }, configSectionName: "AzureAdB2C")
+                   .AddInMemoryTokenCaches();
             services.AddTodoListService(Configuration);
-           
+            // end can be removed
+
             services.AddControllersWithViews(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -66,9 +101,6 @@ namespace TodoListClient
             //Configuring appsettings section AzureAdB2C, into IOptions
             services.AddOptions();
             services.Configure<OpenIdConnectOptions>(Configuration.GetSection("AzureAdB2C"));
-
-            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,7 +126,10 @@ namespace TodoListClient
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            
             app.UseAuthentication();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

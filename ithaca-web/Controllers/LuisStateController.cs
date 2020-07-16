@@ -12,18 +12,18 @@ using TodoListService.Models;
 namespace TodoListClient.Controllers
 {
     [Authorize]
-    public class LuisAccountController : Controller
+    public class LuisStateController : Controller
     {
 
         private readonly ITokenAcquisition tokenAcquisition;
-        public LuisAccountController(ITokenAcquisition tokenAcquisition)
+        public LuisStateController(ITokenAcquisition tokenAcquisition)
         {
             this.tokenAcquisition = tokenAcquisition;
         }
         public IActionResult Index()
         {
             ClaimsPrincipal cp = (ClaimsPrincipal)HttpContext.User;
-            LuisAccountViewModel vm = new LuisAccountViewModel();
+            var vm = new LuisStateViewModel();
             // populate the view model
             vm.Account = cp.Claims.Where(c => c.Type == "luisAccountNumber")
                    .Select(c => c.Value).SingleOrDefault();
@@ -31,7 +31,14 @@ namespace TodoListClient.Controllers
                    .Select(c => c.Value).SingleOrDefault();
             vm.DisplayName = cp.Claims.Where(c => c.Type == "name")
                   .Select(c => c.Value).SingleOrDefault();
+            var onBehalfOf = cp.Claims.Where(c => c.Type == "luisStateResponse")
+                  .Select(c => c.Value).SingleOrDefault();
 
+            var bits = onBehalfOf.Split('=');
+            vm.OnBehalfOf = bits[1];
+            vm.Links.Add(new LuisLink { ActionName = "Signin", ControllerName = "Account", LinkText = "Myself", LuisState = "default" });
+            vm.Links.Add(new LuisLink {  ActionName = "Signin", ControllerName="Account", LinkText="ACME Ear Tags", LuisState="ACME"});
+            vm.Links.Add(new LuisLink { ActionName = "Signin", ControllerName = "Account", LinkText = "Tags R Us", LuisState = "TAGSRUS" });
             return View(vm);
         }
 

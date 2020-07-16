@@ -1,8 +1,8 @@
 ﻿@using TodoListClient.Models
-@model LuisAccountViewModel;
+@model LuisStateViewModel;
 
 @{
-   ViewData["Title"] = "Luis Account";
+   ViewData["Title"] = "Luis State";
 }
 
 <h1>
@@ -43,4 +43,25 @@
       
 
     </dl>
+</div>
+@if (Model.OnBehalfOf != "default") 
+{ 
+<div class="jumbotron">
+    <h2>Acting on behalf of @Model.OnBehalfOf</h2>
+</div>
+
+}
+
+
+<h4>Act on behalf of...</h4>
+
+<div>
+    @foreach (var item in Model.Links)
+    {
+    <div>
+        @Html.ActionLink(item.LinkText, item.ActionName, item.ControllerName, new { Area = "MicrosoftIdentity", luis_state = item.LuisState })
+    </div>
+    }
+
+
 </div>

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Controllers
@@ -27,11 +29,22 @@ namespace Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Controllers
         [HttpGet("{scheme?}")]
         public IActionResult SignIn([FromRoute] string scheme)
         {
+            string luisState = "default";
+            if (!String.IsNullOrEmpty(HttpContext.Request.Query["luis_state"]))
+            {
+                luisState = HttpContext.Request.Query["luis_state"];
+            }
+            
             scheme = scheme ?? OpenIdConnectDefaults.AuthenticationScheme;
-            var redirectUrl = Url.Content("~/luisaccount");
-            var cr = Challenge(
-                new AuthenticationProperties { RedirectUri = redirectUrl },
-                scheme);
+            var redirectUrl = Url.Content("~/luisstate");
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl,
+                Items = { { "test", "test" } },
+                Parameters = { { "luis_state", luisState } }
+            };
+            var cr = Challenge(props, scheme);
+
             return cr;
         }
 

@@ -35,8 +35,8 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Claims" asp-action="Index">Claims</a></li>
-                        <li><a asp-area="" asp-controller="LuisAccount" asp-action="Index">LuisAccount</a></li>
+                        <li><a asp-area="" asp-controller="Claims" asp-action="Index">Raw Claims</a></li>
+                        <li><a asp-area="" asp-controller="LuisState" asp-action="Index">On behalf of</a></li>
                     }
 
                 </ul>

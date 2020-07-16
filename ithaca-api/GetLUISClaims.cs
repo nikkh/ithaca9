@@ -68,15 +68,25 @@ namespace ithaca_api
                 return (ActionResult)new BadRequestObjectResult(new ResponseError() { userMessage = $"email {email} address has not been pre-registered with the LUIS service" });
             }
 
+            var luisState = "";
+            if (data.luisState != null)
+            {
+                luisState = (string)data.luisState;
+            }
+            log.LogInformation($"Incoming luisSate={luisState}");
+            var luisStateResponse = $"luisState={luisState}";
+
             if (string.IsNullOrEmpty(luisAccount.LuisFavoriteColor)) luisAccount.LuisFavoriteColor = "None";
-            log.LogDebug($"email={email}, luisFavoritecolor={luisAccount.LuisFavoriteColor}");
-            return (ActionResult)new OkObjectResult(new LuisClaimsResponseContent() { LuisFavoriteColor = luisAccount.LuisFavoriteColor, LuisAccountNumber = luisAccount.LuisAccountNumber });
+            log.LogDebug($"email={email}, luisFavoritecolor={luisAccount.LuisFavoriteColor}, luisStateResponse={luisStateResponse}");
+            return (ActionResult)new OkObjectResult(new LuisClaimsResponseContent() { 
+                LuisFavoriteColor = luisAccount.LuisFavoriteColor, LuisAccountNumber = luisAccount.LuisAccountNumber, LuisStateResponse = luisStateResponse });
         }
 
         public class LuisClaimsResponseContent
         {
             public string LuisFavoriteColor { get; set; }
             public string LuisAccountNumber { get; set; }
+            public string LuisStateResponse { get; set; }
         }
 
     }

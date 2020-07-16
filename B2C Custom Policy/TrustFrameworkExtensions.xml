@@ -42,10 +42,35 @@
         <DisplayName>Luis Account Number</DisplayName>
         <DataType>string</DataType>
       </ClaimType>
+      <ClaimType Id="luisState">
+        <DisplayName>Luis State</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
+      <ClaimType Id="luisStateResponse">
+        <DisplayName>Luis State</DisplayName>
+        <DataType>string</DataType>
+      </ClaimType>
     </ClaimsSchema>
   </BuildingBlocks>
 
   <ClaimsProviders>
+    
+    <!--Added by nick to handle acting on behalf of-->
+    <ClaimsProvider>
+      <DisplayName>Runtime parameters</DisplayName>
+      <TechnicalProfiles>
+        <TechnicalProfile Id="Get-Parameters">
+          <DisplayName>Profile to fill claims with parameter values</DisplayName>
+          <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+          <Metadata>
+            <Item Key="IncludeClaimResolvingInClaimsHandling">true</Item>
+          </Metadata>
+          <OutputClaims>
+            <OutputClaim ClaimTypeReferenceId="luisState" DefaultValue="{oauth-kv:luis_state}" AlwaysUseDefaultValue="true"/>
+          </OutputClaims>
+        </TechnicalProfile>
+      </TechnicalProfiles>
+    </ClaimsProvider>
 
     <ClaimsProvider>
       <DisplayName>Facebook</DisplayName>
@@ -209,11 +234,13 @@
             <!-- Claims sent to your REST API -->
             <InputClaim ClaimTypeReferenceId="signInName" />
             <InputClaim ClaimTypeReferenceId="email"/>
+            <InputClaim ClaimTypeReferenceId="luisState"/>
           </InputClaims>
           <OutputClaims>
             <!-- Claims parsed from your REST API -->
             <OutputClaim ClaimTypeReferenceId="luisFavoriteColor" />
             <OutputClaim ClaimTypeReferenceId="luisAccountNumber" />
+            <OutputClaim ClaimTypeReferenceId="luisStateResponse" />
           </OutputClaims>
           <UseTechnicalProfileForSessionManagement ReferenceId="SM-Noop" />
         </TechnicalProfile>
@@ -258,7 +285,14 @@
   <UserJourneys>
     <UserJourney Id="SignUpOrSignIn">
       <OrchestrationSteps>
-        <OrchestrationStep Order="1" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
+        <!-- added by nick to pass parameter to REST API -->
+        <!-- would also need to add to other user journeys -->
+        <OrchestrationStep Order="1" Type="ClaimsExchange">
+          <ClaimsExchanges>
+            <ClaimsExchange Id="GetParametersFromQuery" TechnicalProfileReferenceId="Get-Parameters" />
+          </ClaimsExchanges>
+        </OrchestrationStep>
+        <OrchestrationStep Order="2" Type="CombinedSignInAndSignUp" ContentDefinitionReferenceId="api.signuporsignin">
           <ClaimsProviderSelections>
             <ClaimsProviderSelection TargetClaimsExchangeId="FacebookExchange" />
             <ClaimsProviderSelection ValidationClaimsExchangeId="LocalAccountSigninEmailExchange" />
@@ -268,7 +302,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
         <!-- Check if the user has selected to sign in using one of the social providers -->
-        <OrchestrationStep Order="2" Type="ClaimsExchange">
+        <OrchestrationStep Order="3" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
               <Value>objectId</Value>
@@ -281,7 +315,7 @@
           </ClaimsExchanges>
         </OrchestrationStep>
         <!-- For social IDP authentication, attempt to find the user account in the directory. -->
-        <OrchestrationStep Order="3" Type="ClaimsExchange">
+        <OrchestrationStep Order="4" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>authenticationSource</Value>
@@ -296,7 +330,7 @@
         <!-- Show self-asserted page only if the directory does not have the user account already (i.e. we do not have an objectId). 
           This can only happen when authentication happened using a social IDP. If local account was created or authentication done
           using ESTS in step 2, then an user account must exist in the directory by this time. -->
-        <OrchestrationStep Order="4" Type="ClaimsExchange">
+        <OrchestrationStep Order="5" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
               <Value>objectId</Value>
@@ -309,7 +343,7 @@
         </OrchestrationStep>
         <!-- This step reads any user attributes that we may not have received when authenticating using ESTS so they can be sent 
           in the token. -->
-        <OrchestrationStep Order="5" Type="ClaimsExchange">
+        <OrchestrationStep Order="6" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
               <Value>authenticationSource</Value>
@@ -324,7 +358,7 @@
         <!-- The previous step (SelfAsserted-Social) could have been skipped if there were no attributes to collect 
              from the user. So, in that case, create the user in the directory if one does not already exist 
              (verified using objectId which would be set from the last step if account was created in the directory. -->
-        <OrchestrationStep Order="6" Type="ClaimsExchange">
+        <OrchestrationStep Order="7" Type="ClaimsExchange">
           <Preconditions>
             <Precondition Type="ClaimsExist" ExecuteActionsIf="true">
               <Value>objectId</Value>
@@ -335,12 +369,12 @@
             <ClaimsExchange Id="AADUserWrite" TechnicalProfileReferenceId="AAD-UserWriteUsingAlternativeSecurityId" />
           </ClaimsExchanges>
         </OrchestrationStep>
-        <OrchestrationStep Order="7" Type="ClaimsExchange">
+        <OrchestrationStep Order="8" Type="ClaimsExchange">
           <ClaimsExchanges>
             <ClaimsExchange Id="RESTGetLuisClaims" TechnicalProfileReferenceId="REST-GetLuisClaims" />
           </ClaimsExchanges>
         </OrchestrationStep>
-        <OrchestrationStep Order="8" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
+        <OrchestrationStep Order="9" Type="SendClaims" CpimIssuerTechnicalProfileReferenceId="JwtIssuer" />
       </OrchestrationSteps>
       <ClientDefinition ReferenceId="DefaultWeb" />
     </UserJourney>

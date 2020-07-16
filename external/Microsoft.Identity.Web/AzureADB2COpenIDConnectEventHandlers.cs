@@ -27,6 +27,8 @@ namespace Microsoft.Identity.Web
 
         public Task OnRedirectToIdentityProvider(RedirectContext context)
         {
+           
+
             var defaultUserFlow = Options.DefaultUserFlow;
             if (context.Properties.Items.TryGetValue(OidcConstants.PolicyKey, out var userFlow) &&
                 !string.IsNullOrEmpty(userFlow) &&
