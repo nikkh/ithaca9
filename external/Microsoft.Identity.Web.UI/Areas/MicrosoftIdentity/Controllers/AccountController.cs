@@ -40,7 +40,6 @@ namespace Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Controllers
             var props = new AuthenticationProperties
             {
                 RedirectUri = redirectUrl,
-                Items = { { "test", "test" } },
                 Parameters = { { "luis_state", luisState } }
             };
             var cr = Challenge(props, scheme);

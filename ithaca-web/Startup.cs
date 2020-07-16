@@ -46,14 +46,11 @@ namespace TodoListClient
             });
 
             services.AddOptions();
-
+            //  This is the syntax for the v0.2 preview Microsoft.Identity Web.  If upgrading, then you would need to refactor the code below hooking into RedirectToIdentityProvider to fit this new structure.
             //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             //    .AddMicrosoftWebApp(Configuration, "AzureAdB2C")
             //    .AddMicrosoftWebAppCallsWebApi(Configuration, new string[] { Configuration["TodoList:TodoListScope"] }, configSectionName: "AzureAdB2C")
             //    .AddInMemoryTokenCaches();
-
-            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            //                .AddSignIn("AzureAdB2C", Configuration, options => Configuration.Bind("AzureAdB2C", options));
 
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
                 .AddSignIn("AzureAdB2C", Configuration, options =>
