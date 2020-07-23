@@ -6,7 +6,10 @@
   PolicySchemaVersion="0.3.0.0"
   TenantId="ithaca9.onmicrosoft.com"
   PolicyId="B2C_1A_signup_signin"
-  PublicPolicyUri="http://ithaca9.onmicrosoft.com/B2C_1A_signup_signin">
+  PublicPolicyUri="http://ithaca9.onmicrosoft.com/B2C_1A_signup_signin"
+  DeploymentMode="Development"
+  UserJourneyRecorderEndpoint="urn:journeyrecorder:applicationinsights"
+  >
 
   <BasePolicy>
     <TenantId>ithaca9.onmicrosoft.com</TenantId>
@@ -15,6 +18,9 @@
 
   <RelyingParty>
     <DefaultUserJourney ReferenceId="SignUpOrSignIn" />
+    <UserJourneyBehaviors>
+      <JourneyInsights TelemetryEngine="ApplicationInsights" InstrumentationKey="8dba0eef-2cf4-4302-b650-24bc07c874f7" DeveloperMode="true" ClientEnabled="true" ServerEnabled="true" TelemetryVersion="1.0.0" />
+    </UserJourneyBehaviors>
     <TechnicalProfile Id="PolicyProfile">
       <DisplayName>PolicyProfile</DisplayName>
       <Protocol Name="OpenIdConnect" />

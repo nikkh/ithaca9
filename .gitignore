@@ -5,6 +5,9 @@
 /ithaca-web/bin/Debug/netcoreapp3.1
 /ithaca-web/bin/Debug/netcoreapp3.1/appsettings.Development.json
 /ithaca-web/bin/Debug/netcoreapp3.1/appsettings.json
+/ithaca-web/obj/Release/netcoreapp3.1/appsettings.Development.json
+/ithaca-web/obj/Release/netcoreapp3.1/appsettings.json
+/ithaca-web/obj/Release/netcoreapp3.1
 /ithaca-web/obj
 /external/Microsoft.Identity.Web/obj
 /external/Microsoft.Identity.Web/bin/Debug/netcoreapp3.1
